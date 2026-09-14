@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACU Masters | Member Profile</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --blue:#1700a8;
+  --blue2:#101ed8;
+  --cyan:#4fd7e6;
+  --pink:#c63d7e;
+  --lime:#b5ff38;
+}
+
+body{
+  min-height:100vh;
+  font-family:"Inter",sans-serif;
+  color:#fff;
+  overflow-x:hidden;
+  padding:28px 16px 40px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:
+    radial-gradient(circle at 90% 5%,rgba(80,210,255,.42),transparent 25%),
+    radial-gradient(circle at 8% 95%,rgba(0,150,255,.20),transparent 30%),
+    linear-gradient(135deg,#15008f 0%,#1800ae 48%,#121bd9 100%);
+}
+
+.bg{
+  position:fixed;
+  pointer-events:none;
+  z-index:0;
+  border-radius:50%;
+}
+.bg1{
+  width:500px;height:500px;left:-330px;top:150px;
+  background:linear-gradient(135deg,#55dbe8,#078ce9);
+  animation:float 8s ease-in-out infinite alternate;
+}
+.bg2{
+  width:440px;height:440px;right:-200px;bottom:-150px;
+  background:linear-gradient(135deg,#58d7e5,#158de7);
+  animation:float 9s ease-in-out infinite alternate-reverse;
+}
+.bg3{
+  width:240px;height:240px;right:-100px;top:20px;
+  background:radial-gradient(circle,rgba(90,220,255,.35),transparent 70%);
+  animation:pulse 6s ease-in-out infinite;
+}
+@keyframes float{to{transform:translateY(28px) scale(1.05)}}
+@keyframes pulse{50%{transform:scale(1.12);opacity:.65}}
+
+.page{width:100%;max-width:500px;position:relative;z-index:2}
+
+.card{
+  position:relative;
+  overflow:hidden;
+  padding:26px;
+  border-radius:38px;
+  background:linear-gradient(145deg,rgba(255,255,255,.15),rgba(255,255,255,.045));
+  border:1px solid rgba(255,255,255,.22);
+  box-shadow:0 30px 80px rgba(0,0,0,.36),inset 0 1px 0 rgba(255,255,255,.18);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  animation:enter .8s cubic-bezier(.2,.8,.2,1);
+}
+@keyframes enter{
+  from{opacity:0;transform:translateY(35px) scale(.96)}
+  to{opacity:1;transform:none}
+}
+
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  margin-bottom:25px;
+}
+.brand{display:flex;align-items:center;gap:11px}
+.logo{
+  width:64px;height:64px;object-fit:contain;
+  filter:drop-shadow(0 8px 15px rgba(0,0,0,.35));
+  animation:logoFloat 4s ease-in-out infinite;
+}
+@keyframes logoFloat{50%{transform:translateY(-5px) rotate(-1deg)}}
+.brandTitle{line-height:.95}
+.brandTitle .acu{font-size:23px;font-weight:900;letter-spacing:-1px}
+.brandTitle .masters{font-size:16px;font-weight:900}
+.badge{
+  font-size:9px;font-weight:800;letter-spacing:1.4px;
+  padding:8px 12px;border-radius:999px;
+  background:rgba(255,255,255,.11);
+  border:1px solid rgba(255,255,255,.18);
+}
+
+.photo{
+  position:relative;
+  width:100%;
+  aspect-ratio:1/1.08;
+  overflow:hidden;
+  border-radius:30px;
+  background:linear-gradient(135deg,#7b1f70,#d43e80);
+  box-shadow:0 25px 50px rgba(0,0,0,.28);
+  margin-bottom:24px;
+}
+.photo:before{
+  content:"";
+  position:absolute;width:190px;height:190px;border-radius:50%;
+  right:-65px;top:-100px;background:rgba(255,255,255,.16);
+  z-index:2;
+}
+.photo img{
+  width:100%;height:100%;display:block;object-fit:cover;object-position:center top;
+  transition:transform .7s cubic-bezier(.2,.8,.2,1);
+}
+.photo:hover img{transform:scale(1.035)}
+.photo:after{
+  content:"";position:absolute;inset:auto 0 0;height:35%;
+  background:linear-gradient(transparent,rgba(31,0,45,.45));
+}
+
+.name{
+  font-size:clamp(38px,10vw,58px);
+  line-height:.94;font-weight:900;letter-spacing:-2.8px;
+  margin-bottom:10px;text-transform:uppercase;
+}
+.department{
+  color:var(--lime);font-size:15px;font-weight:900;
+  letter-spacing:.7px;text-transform:uppercase;margin-bottom:25px;
+}
+
+.info{
+  display:grid;grid-template-columns:1fr 1fr;gap:11px;
+}
+.box{
+  padding:15px;border-radius:18px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.12);
+  transition:transform .3s ease,background .3s ease;
+}
+.box:hover{transform:translateY(-4px);background:rgba(255,255,255,.14)}
+.label{
+  font-size:8px;font-weight:800;letter-spacing:1.3px;
+  opacity:.52;text-transform:uppercase;margin-bottom:6px;
+}
+.value{font-size:14px;font-weight:700}
+
+.qr{
+  display:flex;align-items:center;gap:17px;
+  margin-top:21px;padding-top:21px;
+  border-top:1px solid rgba(255,255,255,.12);
+}
+#qrcode{
+  width:86px;height:86px;background:#fff;border-radius:13px;
+  padding:7px;flex-shrink:0;
+}
+#qrcode img{width:100%!important;height:100%!important;display:block}
+.qr h3{font-size:13px;font-weight:800;margin-bottom:5px}
+.qr p{font-size:10px;line-height:1.5;opacity:.56}
+
+.footer{
+  text-align:center;margin-top:23px;
+  font-size:8px;letter-spacing:2px;font-weight:700;opacity:.38;
+}
+
+@media(max-width:550px){
+  body{padding:14px 10px 25px;align-items:flex-start}
+  .card{padding:19px;border-radius:30px}
+  .logo{width:53px;height:53px}
+  .brandTitle .acu{font-size:19px}
+  .brandTitle .masters{font-size:13px}
+  .badge{font-size:7px;padding:7px 9px}
+  .photo{border-radius:24px}
+  .name{font-size:42px}
+  .department{font-size:12px}
+}
+@media(max-width:360px){
+  .info{grid-template-columns:1fr}
+  .name{font-size:36px}
+}
+</style>
+</head>
+
+<body>
+<div class="bg bg1"></div>
+<div class="bg bg2"></div>
+<div class="bg bg3"></div>
+
+<main class="page">
+  <section class="card">
+
+    <header class="header">
+      <div class="brand">
+        <img src="images/logo.png" class="logo" alt="ACU Masters Logo">
+        <div class="brandTitle">
+          <div class="acu">ACU</div>
+          <div class="masters">MASTERS</div>
+        </div>
+      </div>
+      <div class="badge">COMMUNITY</div>
+    </header>
+
+    <div class="photo">
+      <img id="profileImage" src="" alt="Member Photo">
+    </div>
+
+    <h1 id="profileName" class="name"></h1>
+    <div id="profileDepartment" class="department"></div>
+
+    <div class="info">
+      <div class="box">
+        <div class="label">University</div>
+        <div id="profileUniversity" class="value"></div>
+      </div>
+      <div class="box">
+        <div class="label">Community</div>
+        <div id="profileCommunity" class="value"></div>
+      </div>
+      <div class="box">
+        <div class="label">Role</div>
+        <div id="profileRole" class="value"></div>
+      </div>
+      <div class="box">
+        <div class="label">Member ID</div>
+        <div id="profileID" class="value"></div>
+      </div>
+    </div>
+
+    <div class="qr">
+      <div id="qrcode"></div>
+      <div>
+        <h3>ACU MASTERS MEMBER</h3>
+        <p>Scan the QR code to open this member's digital profile.</p>
+      </div>
+    </div>
+
+    <div class="footer">ACU MASTERS COMMUNITY</div>
+  </section>
+</main>
+
+<script>
+/* ============================================================
+   👤 MEMBER DATA
+   ------------------------------------------------------------
+   FOR NOW, THIS IS THE ONLY PART YOU NEED TO EDIT.
+
+   To add another member later, copy the "bavly" block and
+   change the ID, name, department, role and image.
+
+   Example:
+   michael: {
+      name: "Michael Adel",
+      department: "MEDIA",
+      university: "ACU",
+      community: "ACU Masters",
+      role: "Community Member",
+      image: "images/michael.jpg"
+   }
+============================================================ */
+
+const MEMBERS = {
+
+  bavly: {
+    name: "Bavly Dawod",
+    department: "HEAD - MARKETING",
+    university: "ACU",
+    community: "ACU Masters",
+    role: "Community Member",
+    image: "images/bavly.png"
+  }
+
+};
+
+
+/* ============================================================
+   DO NOT EDIT BELOW THIS LINE
+============================================================ */
+
+const params = new URLSearchParams(window.location.search);
+const requestedId = (params.get("id") || "bavly").toLowerCase();
+
+const member = MEMBERS[requestedId] || MEMBERS.bavly;
+
+document.getElementById("profileName").textContent = member.name;
+document.getElementById("profileDepartment").textContent = member.department;
+document.getElementById("profileUniversity").textContent = member.university;
+document.getElementById("profileCommunity").textContent = member.community;
+document.getElementById("profileRole").textContent = member.role;
+document.getElementById("profileID").textContent = requestedId.toUpperCase();
+document.getElementById("profileImage").src = member.image;
+
+const profileURL =
+  window.location.origin +
+  window.location.pathname +
+  "?id=" +
+  encodeURIComponent(requestedId);
+
+new QRCode(document.getElementById("qrcode"), {
+  text: profileURL,
+  width: 72,
+  height: 72,
+  correctLevel: QRCode.CorrectLevel.H
+});
+</script>
+</body>
+</html>
